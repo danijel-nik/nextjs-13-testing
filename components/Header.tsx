@@ -24,7 +24,10 @@ const Header = () => {
 								<a className="cursor-pointer" onClick={() => signOut({ redirect: true })}>Log Out</a>
 							</>
 						) : (
-							<Link href='/login'>Login</Link>
+							<>
+								<Link href='/login'>Login</Link>&nbsp;/&nbsp;
+								<Link href='/registration'>Registration</Link>
+							</>
 						)}
 					</nav>
 				</div>
