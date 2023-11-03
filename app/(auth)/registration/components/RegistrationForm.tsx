@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { RegistrationFormSchema } from '@/schemas/Auth.schema';
+import { RegistrationFormSchema } from '@/schemas/auth.schema';
 
 type FormInputs = z.infer<typeof RegistrationFormSchema>;
 

@@ -30,3 +30,11 @@ export const RegistrationFormSchema = z.object({
     //         });
     //     }
     // });
+
+export const LoginFormSchema = z.object({
+    email: z.string().email('Please provide a valid email.').nonempty('Email is required.'),
+    password: z
+        .string()
+        .nonempty('Password is required.')
+        .min(6, { message: 'Password must have at least 6 characters.' })
+});
