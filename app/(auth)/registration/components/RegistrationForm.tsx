@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { RegistrationFormSchema } from '@/schemas/auth.schema';
+import { addUser } from '@/actions/user.actions';
 
 type FormInputs = z.infer<typeof RegistrationFormSchema>;
 
@@ -14,14 +15,14 @@ const RegistrationForm = () => {
     const router = useRouter();
 
     const {
-		register,
-		handleSubmit,
-		watch,
-		reset,
-		formState: { errors }
-	} = useForm<FormInputs>({
-		resolver: zodResolver(RegistrationFormSchema)
-	});
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors }
+    } = useForm<FormInputs>({
+        resolver: zodResolver(RegistrationFormSchema)
+    });
 
     useEffect(() => {
         if (session) {
@@ -30,7 +31,7 @@ const RegistrationForm = () => {
     }, [session]);
 
     const handleRegistration: SubmitHandler<FormInputs> = async (data) => {
-        console.log(data);
+        const resp = await addUser(data);
     };
 
     return (
@@ -43,16 +44,16 @@ const RegistrationForm = () => {
                     placeholder="Full Name*"
                 />
                 {errors.name?.message && (
-					<p className="text-sm text-red-400">{errors.name.message}</p>
-				)}
+                    <p className="text-sm text-red-400">{errors.name.message}</p>
+                )}
                 <input
                     className="block rounded-lg text-black py-1 px-2 mb-2"
                     {...register('email')}
                     placeholder="Email*"
                 />
                 {errors.email?.message && (
-					<p className="text-sm text-red-400">{errors.email.message}</p>
-				)}
+                    <p className="text-sm text-red-400">{errors.email.message}</p>
+                )}
                 <input
                     className="block rounded-lg text-black py-1 px-2 mb-2"
                     type="password"
@@ -60,8 +61,8 @@ const RegistrationForm = () => {
                     placeholder="Password*"
                 />
                 {errors.password?.message && (
-					<p className="text-sm text-red-400">{errors.password.message}</p>
-				)}
+                    <p className="text-sm text-red-400">{errors.password.message}</p>
+                )}
                 <input
                     className="block rounded-lg text-black py-1 px-2 mb-2"
                     type="password"
@@ -69,8 +70,8 @@ const RegistrationForm = () => {
                     placeholder="Confirm Password*"
                 />
                 {errors.confirmPassword?.message && (
-					<p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
-				)}
+                    <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
+                )}
                 <button
                     className="text-white font-bold animate-pulse"
                     type="submit"
