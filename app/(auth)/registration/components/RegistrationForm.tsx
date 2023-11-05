@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { RegistrationFormSchema } from '@/schemas/auth.schema';
 import { addUser } from '@/actions/user.actions';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type FormInputs = z.infer<typeof RegistrationFormSchema>;
 
@@ -37,25 +39,25 @@ const RegistrationForm = () => {
     return (
         <div className="h-[60vh] flex flex-col items-center justify-center text-center">
             <h1 className="mb-16 text-2xl font-medium text-center">Registration</h1>
-            <form onSubmit={handleSubmit(handleRegistration)}>
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+            <form
+                onSubmit={handleSubmit(handleRegistration)}
+                className="flex flex-col gap-4 sm:w-1/2"
+            >
+                <Input
                     {...register('name')}
                     placeholder="Full Name*"
                 />
                 {errors.name?.message && (
                     <p className="text-sm text-red-400">{errors.name.message}</p>
                 )}
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+                <Input
                     {...register('email')}
                     placeholder="Email*"
                 />
                 {errors.email?.message && (
                     <p className="text-sm text-red-400">{errors.email.message}</p>
                 )}
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+                <Input
                     type="password"
                     {...register('password')}
                     placeholder="Password*"
@@ -63,8 +65,7 @@ const RegistrationForm = () => {
                 {errors.password?.message && (
                     <p className="text-sm text-red-400">{errors.password.message}</p>
                 )}
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+                <Input
                     type="password"
                     {...register('confirmPassword')}
                     placeholder="Confirm Password*"
@@ -72,12 +73,12 @@ const RegistrationForm = () => {
                 {errors.confirmPassword?.message && (
                     <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>
                 )}
-                <button
-                    className="text-white font-bold animate-pulse"
+                <Button
+                    className="animate-pulse"
                     type="submit"
                 >
                     Register
-                </button>
+                </Button>
             </form>
         </div>
     )

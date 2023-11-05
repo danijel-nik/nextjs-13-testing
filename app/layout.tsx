@@ -2,9 +2,10 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
-import SessionProvider from '@/components/SessionProvider';
+import SessionProvider from '@/components/providers/SessionProvider';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
+import ThemeProvider from '@/components/providers/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,14 +24,21 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <Header />
-          <main className='py-24 px-2'>
-            <div className='container m-auto'>
-              {children}
-            </div>
-          </main>
-        </SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider session={session}>
+            <Header />
+            <main className='py-24 px-2'>
+              <div className='container m-auto'>
+                {children}
+              </div>
+            </main>
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

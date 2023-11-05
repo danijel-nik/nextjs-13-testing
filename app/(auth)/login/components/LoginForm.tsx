@@ -6,6 +6,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { LoginFormSchema } from '@/schemas/auth.schema';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type FormInputs = z.infer<typeof LoginFormSchema>;
 
@@ -27,12 +29,12 @@ const LoginForm = () => {
     }, [session]);
 
     const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm<FormInputs>({
-		resolver: zodResolver(LoginFormSchema)
-	});
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<FormInputs>({
+        resolver: zodResolver(LoginFormSchema)
+    });
 
     const handleLoginWithFormData = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -55,32 +57,33 @@ const LoginForm = () => {
     return (
         <div className="h-[60vh] flex flex-col items-center justify-center text-center">
             <h1 className="mb-16 text-2xl font-medium text-center">Sign in</h1>
-            <form onSubmit={handleSubmit(handleLogin)}>
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+            <form
+                onSubmit={handleSubmit(handleLogin)}
+                className="flex flex-col gap-4 sm:w-1/2"
+            >
+                <Input
                     {...register('email')}
                     placeholder="Email"
-                    required
+                    autoComplete="off"
                 />
                 {errors.email?.message && (
-					<p className="text-sm text-red-400">{errors.email.message}</p>
-				)}
-                <input
-                    className="block rounded-lg text-black py-1 px-2 mb-2"
+                    <p className="text-sm text-red-400">{errors.email.message}</p>
+                )}
+                <Input
                     type="password"
                     {...register('password')}
                     placeholder="Password"
-                    required
+                    autoComplete="off"
                 />
                 {errors.password?.message && (
-					<p className="text-sm text-red-400">{errors.password.message}</p>
-				)}
-                <button
-                    className="text-white font-bold animate-pulse"
+                    <p className="text-sm text-red-400">{errors.password.message}</p>
+                )}
+                <Button
+                    className="animate-pulse"
                     type="submit"
                 >
                     Sign In
-                </button>
+                </Button>
             </form>
         </div>
     )
