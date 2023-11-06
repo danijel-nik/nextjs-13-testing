@@ -9,6 +9,7 @@ import { RegistrationFormSchema } from '@/schemas/auth.schema';
 import { addUser } from '@/actions/user.actions';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useMutation } from '@tanstack/react-query';
 
 type FormInputs = z.infer<typeof RegistrationFormSchema>;
 
@@ -32,8 +33,15 @@ const RegistrationForm = () => {
         }
     }, [session]);
 
-    const handleRegistration: SubmitHandler<FormInputs> = async (data) => {
-        const resp = await addUser(data);
+    const { mutate: registerUser } = useMutation({
+        mutationFn: addUser,
+        onSuccess: () => {
+            reset();
+        }
+    });
+
+    const handleRegistration: SubmitHandler<FormInputs> = (data) => {
+        registerUser(data);
     };
 
     return (

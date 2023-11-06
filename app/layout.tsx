@@ -6,6 +6,7 @@ import SessionProvider from '@/components/providers/SessionProvider';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
 import ThemeProvider from '@/components/providers/ThemeProvider';
+import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,14 +31,16 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider session={session}>
-            <Header />
-            <main className='py-24 px-2'>
-              <div className='container m-auto'>
-                {children}
-              </div>
-            </main>
-          </SessionProvider>
+          <ReactQueryProvider>
+            <SessionProvider session={session}>
+              <Header />
+              <main className='py-24 px-2'>
+                <div className='container m-auto'>
+                  {children}
+                </div>
+              </main>
+            </SessionProvider>
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
