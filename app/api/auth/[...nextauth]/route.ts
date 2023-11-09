@@ -1,9 +1,13 @@
-// import { authenticate } from "@/services/authService"
 import NextAuth from "next-auth"
-import type { AuthOptions } from "next-auth"
+import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from "@/lib-server/prisma";
+import { compare } from "bcryptjs";
+import { LoginFormSchema } from "@/schemas/auth.schema";
+import { z } from 'zod';
+
+type Credentials = z.infer<typeof LoginFormSchema>;
 
 export const authOptions: AuthOptions = {
 	providers: [
@@ -14,35 +18,41 @@ export const authOptions: AuthOptions = {
 				password: { label: "Password", type: "password" }
 			},
 			// @ts-ignore
-			async authorize(credentials, req) {
-				if (typeof credentials !== "undefined") {
-					// const res = await authenticate(credentials.email, credentials.password)
-					const res = {
-						user: {
-							id: 1,
-							username: "john.doe@mailinator.com",
-							email: "john.doe@mailinator.com",
-							fullname: "John Doe",
-							role: "SUPER",
-							createdAt: "2021-05-30T06:45:19.000Z",
-							name: "John Doe"
-						},
-						token: 'eyasdfasdf12334543435asdfsa'
-					};
-					if (typeof res !== "undefined") {
-						return { ...res.user, apiToken: res.token }
-					} else {
-						return null
+			async authorize(credentials: Credentials) {
+				const validation = LoginFormSchema.safeParse(credentials);
+				if (validation.success) {
+					try {
+						const user = await prisma.user.findFirst({
+							where: {
+								email: credentials.email
+							}
+						});
+						if (user) {
+							const passwordResult = await compare(credentials.password, user.password!)
+							if (passwordResult === true) {
+								return {
+									id: user.id,
+									email: user.email,
+									name: user.name,
+									role: user.role,
+									createdAt: user.createdAt
+								};
+							} else {
+								throw new Error("Email or password doesn't match!");
+							}
+						}
+					} catch (error) {
+						return null;
 					}
 				} else {
-					return null
+					return null;
 				}
 			}
 		})
 	],
 	callbacks: {
 		// @ts-ignore
-		async jwt({ token, user }) {
+		async jwt({ token, user, account }) {
 			if (user) {
 				token.user = user;
 			}
@@ -50,18 +60,19 @@ export const authOptions: AuthOptions = {
 		},
 		// @ts-ignore
 		async session({ session, token }) {
-			const user = token.user
+			const user = token.user;
 			if (user) {
 				return {
 					user: { ...user },
-					expires: session.expires
+					expires: session.expires,
+					token: token.jti
 				}
 			}
 		}
 	},
 	session: { strategy: "jwt" },
 	secret: process.env.NEXTAUTH_SECRET,
-	// adapter: PrismaAdapter(prisma),
+	adapter: PrismaAdapter(prisma),
 	pages: {
 		signIn: '/login'
 	},

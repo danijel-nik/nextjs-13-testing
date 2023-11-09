@@ -6,6 +6,8 @@ import ThemeSwitcher from './ThemeSwitcher';
 const Header = () => {
 	const { data: session } = useSession();
 
+	console.log(session);
+
 	return (
 		<div className="bg-slate-800 text-white py-4 px-2">
 			<div className="container m-auto">

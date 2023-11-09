@@ -3,6 +3,7 @@
 import prisma from '@/lib-server/prisma';
 import { z } from 'zod';
 import { RegistrationFormSchema } from '@/schemas/auth.schema';
+import { hash } from 'bcryptjs';
 
 type Inputs = z.infer<typeof RegistrationFormSchema>;
 
@@ -11,9 +12,10 @@ export const addUser = async (data: Inputs) => {
 
     if (result.success) {
         const { name, email, password } = result.data;
+        const passwordHash = await hash(password, 10);
         try {
             const user = await prisma.user.create({
-                data: { name, email, password }
+                data: { name, email, password: passwordHash }
             });
 
             if (user) {
