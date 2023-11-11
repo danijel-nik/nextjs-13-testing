@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
 				const validation = LoginFormSchema.safeParse(credentials);
 				if (validation.success) {
 					try {
-						const user = await prisma.user.findFirst({
+						const user = await prisma.user.findUnique({
 							where: {
 								email: credentials.email
 							}
@@ -38,7 +38,7 @@ export const authOptions: AuthOptions = {
 									createdAt: user.createdAt
 								};
 							} else {
-								throw new Error("Email or password doesn't match!");
+								return null;
 							}
 						}
 					} catch (error) {
@@ -70,7 +70,11 @@ export const authOptions: AuthOptions = {
 			}
 		}
 	},
-	session: { strategy: "jwt" },
+	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 30 },
+	jwt: {
+		secret: process.env.NEXTAUTH_SECRET,
+		maxAge: 60 * 60 * 24 * 30
+	},
 	secret: process.env.NEXTAUTH_SECRET,
 	adapter: PrismaAdapter(prisma),
 	pages: {
