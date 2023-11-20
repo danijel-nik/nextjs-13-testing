@@ -7,6 +7,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
+import ReduxProvider from '@/components/providers/ReduxProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,23 +26,25 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ReactQueryProvider>
-            <SessionProvider session={session}>
-              <Header />
-              <main className='py-24 px-2'>
-                <div className='container m-auto'>
-                  {children}
-                </div>
-              </main>
-            </SessionProvider>
-          </ReactQueryProvider>
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ReactQueryProvider>
+              <SessionProvider session={session}>
+                <Header />
+                <main className='py-24 px-2'>
+                  <div className='container m-auto'>
+                    {children}
+                  </div>
+                </main>
+              </SessionProvider>
+            </ReactQueryProvider>
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
