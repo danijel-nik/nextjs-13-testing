@@ -6,7 +6,7 @@ import { useGetUsersQuery, useGetUserByIdQuery } from "@/redux/services/userApi"
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-const ReduxApi = () => {
+const ReduxQueries = () => {
     const dispatch = useAppDispatch();
     const [userId, setUserId] = useState<string>('');
     const { isLoading, isFetching, data: users, error } = useGetUsersQuery(null, {});
@@ -19,9 +19,9 @@ const ReduxApi = () => {
             </div>
             <div className="rounded-lg bg-secondary p-8 text-3xl h-[65vh] overflow-y-auto">
                 {(isLoading || userLoading) ? (
-                    <>Loading...</>
+                    <pre>Loading...</pre>
                 ) : (error || userError) ? (
-                    <pre>{JSON.stringify(error)}</pre>
+                    <pre>No results</pre>
                 ) : (userId !== '' && user) ? (
                     <pre>{JSON.stringify(user, null, 2)}</pre>
                 ) : (
@@ -38,4 +38,4 @@ const ReduxApi = () => {
     );
 };
 
-export default ReduxApi;
+export default ReduxQueries;

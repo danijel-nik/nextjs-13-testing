@@ -1,16 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counterSlice";
 import { userApi } from "./services/userApi";
+import { formApi } from "./services/formApi";
 
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    [userApi.reducerPath]: userApi.reducer
+    [userApi.reducerPath]: userApi.reducer,
+    [formApi.reducerPath]: formApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({}).concat([userApi.middleware]),
+    getDefaultMiddleware({}).concat([
+      userApi.middleware,
+      formApi.middleware
+    ]),
   devTools: process.env.NODE_ENV !== "production",
 });
 

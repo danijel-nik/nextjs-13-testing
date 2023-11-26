@@ -34,8 +34,11 @@ const Header = () => {
 								<DropdownMenuItem onClick={() => router.push('/redux/actions')} className="cursor-pointer">
 									Actions
 								</DropdownMenuItem>
-								<DropdownMenuItem onClick={() => router.push('/redux/services')} className="cursor-pointer">
-									Services
+								<DropdownMenuItem onClick={() => router.push('/redux/queries')} className="cursor-pointer">
+									Services - Queries
+								</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => router.push('/redux/mutations')} className="cursor-pointer">
+									Services - Mutations
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
