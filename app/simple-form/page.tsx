@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import SimpleForm from '@/app/simple-form/components/SimpleForm';
+import SimpleForm from '@/app/simple-form/_components/SimpleForm';
 
 export default function SimpleFormPage() {
     return (

@@ -1,4 +1,4 @@
-import ReduxMutations from "./components/ReduxMutations";
+import ReduxMutations from "./_components/ReduxMutations";
 
 export default function ReduxMutationsPage() {
     return (

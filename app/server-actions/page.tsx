@@ -1,4 +1,4 @@
-import RHFZodWithActions from "./components/RHFZodWithActions"
+import RHFZodWithActions from "./_components/RHFZodWithActions"
 
 export default function ReactHookFormPage() {
     return (

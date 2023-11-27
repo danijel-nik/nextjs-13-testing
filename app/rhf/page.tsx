@@ -1,5 +1,5 @@
-import ReactHookForm from './components/ReactHookForm';
-import ReactHookFormZod from './components/ReactHookFormZod';
+import ReactHookForm from './_components/ReactHookForm';
+import ReactHookFormZod from './_components/ReactHookFormZod';
 
 export default function ReactHookFormPage() {
     return (

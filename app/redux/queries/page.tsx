@@ -1,4 +1,4 @@
-import ReduxQueries from "./components/ReduxQueries";
+import ReduxQueries from "./_components/ReduxQueries";
 
 export default function ReduxQueriesPage() {
     return (
