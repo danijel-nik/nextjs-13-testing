@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth/next';
 import ThemeProvider from '@/components/providers/ThemeProvider';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import ReduxProvider from '@/components/providers/ReduxProvider';
+import TrpcProvider from '@/components/providers/TrpcProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +34,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ReactQueryProvider>
+            {/* <ReactQueryProvider> */}
+            <TrpcProvider>
               <SessionProvider session={session}>
                 <Header />
                 <main className='py-24 px-2'>
@@ -42,7 +44,8 @@ export default async function RootLayout({
                   </div>
                 </main>
               </SessionProvider>
-            </ReactQueryProvider>
+            </TrpcProvider>
+            {/* </ReactQueryProvider> */}
           </ThemeProvider>
         </ReduxProvider>
       </body>

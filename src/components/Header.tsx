@@ -41,7 +41,8 @@ const Header = () => {
 									Services - Mutations
 								</DropdownMenuItem>
 							</DropdownMenuContent>
-						</DropdownMenu>
+						</DropdownMenu>&nbsp;/&nbsp;
+						<Link href='/trpc' className={`${pathname === '/trpc' ? 'font-bold' : ''}`}>TRPC</Link>
 					</nav>
 					<nav className="flex flex-wrap pt-1 gap-1 items-center">
 						{session ? (
